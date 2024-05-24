@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(methodOveride("_method"));
 app.use(session({
-    secret: "keyboard cat",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({
