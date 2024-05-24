@@ -5,6 +5,7 @@ const app = express();
 const expressLayout = require("express-ejs-layouts");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const path = require("path");
 const methodOveride = require("method-override");
 const mongoStore = require("connect-mongo");
 const connectDB = require("./server/config/db");
@@ -34,10 +35,12 @@ app.use(express.static("public"));
 app.use(expressLayout);
 app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 app.locals.isActiveRoute = isActiveRoute;
 
 app.use("/", require("./server/routes/main"));
 app.use("/", require("./server/routes/admin"));
+
 
 app.listen(PORT, () => {
     console.log(`Server running on port -> ${PORT}`);
