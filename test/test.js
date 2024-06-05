@@ -22,5 +22,7 @@ describe('TESTING isActiveRoute FUNCTION...', () => {
 		const route = '/home';
 		const currentRoute = '/about';
 		const result = isActiveRoute(route, currentRoute);
+
+		assert.strictEqual(result, false);
 	});
 });
