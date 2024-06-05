@@ -1,4 +1,6 @@
-import { expect } from 'chai'
+
+const chai = require("chai");
+const  = 
 import connectDB from './server/config/db'
 import { isActiveRoute } from './server/helpers/routerHelpers'
 
