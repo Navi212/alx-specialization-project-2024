@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const connectDB = require('./server/config/db');
 
-//Module to be tested is being imported here
+// Module to be tested is being imported here
 const { isActiveRoute } = ('./server/helpers/routerHelpers');
 
 
@@ -26,3 +26,7 @@ describe('TESTING isActiveRoute FUNCTION...', () => {
 		assert.strictEqual(result, false);
 	});
 });
+
+
+//Integration test for express app
+//
