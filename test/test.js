@@ -13,6 +13,7 @@ describe('TESTING isActiveRoute FUNCTION...', () => {
 	it('Should return true if the current route matches the provided route', () => {
 		const currentRoute = '/home';
 		const providedRoute = '/home';
+		const result = isActiveRoute(currentRoute, providedRoute);
 	})
 
 	it('Checking whether the route is active', () => {
