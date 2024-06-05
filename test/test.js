@@ -4,7 +4,7 @@ const request = require('supertest');
 const express = require('express');
 const app = express();
 const connectDB = require('./server/config/db');
-import { isActiveRoute } from './server/helpers/routerHelpers'
+const { isActiveRoute } = ('./server/helpers/routerHelpers');
 
 /*
 test('Connection to database', () => {
