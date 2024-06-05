@@ -1,6 +1,6 @@
-
 const chai = require("chai");
 const expect = chai.expect;
+const request = require('supertest');
 import connectDB from './server/config/db'
 import { isActiveRoute } from './server/helpers/routerHelpers'
 
