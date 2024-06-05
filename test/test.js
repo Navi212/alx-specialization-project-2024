@@ -1,6 +1,6 @@
 
 const chai = require("chai");
-const  = 
+const expect = chai.expect;
 import connectDB from './server/config/db'
 import { isActiveRoute } from './server/helpers/routerHelpers'
 
