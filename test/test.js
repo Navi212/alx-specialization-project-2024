@@ -2,7 +2,8 @@ const chai = require("chai");
 const expect = chai.expect;
 const request = require('supertest');
 const express = require('express');
-import connectDB from './server/config/db'
+const app = express();
+const connectDB = require('./server/config/db');
 import { isActiveRoute } from './server/helpers/routerHelpers'
 
 /*
