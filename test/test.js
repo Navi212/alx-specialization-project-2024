@@ -18,7 +18,7 @@ describe('TESTING isActiveRoute FUNCTION...', () => {
 		assert.strictEqual(result,true);
 	});
 
-	it(, () => {
+	it('should return false if the current route does not match the provided route', () => {
 		;
 	});
 });
