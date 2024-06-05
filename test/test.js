@@ -8,15 +8,9 @@ const connectDB = require('./server/config/db');
 //Module to be tested is being imported here
 const { isActiveRoute } = ('./server/helpers/routerHelpers');
 
-/*
-test('Connection to database', () => {
-	expect(connectDB()).toBe(`Database connected: ${conn.connection.host}`);
-});
-*/
 
-
-describe('TESTING THE SERVER...', () => {
-	it('Connection to database', () => {
+describe('TESTING isActiveRoute FUNCTION...', () => {
+	it('Should return true if the current route matches the provided route', () => {
 		expect(connectDB()).to.be(`Database connected: ${conn.connection.host}`);
 	})
 
