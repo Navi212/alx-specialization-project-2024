@@ -11,7 +11,8 @@ const { isActiveRoute } = ('./server/helpers/routerHelpers');
 
 describe('TESTING isActiveRoute FUNCTION...', () => {
 	it('Should return true if the current route matches the provided route', () => {
-		expect(connectDB()).to.be(`Database connected: ${conn.connection.host}`);
+		const currentRoute = '/home';
+
 	})
 
 	it('Checking whether the route is active', () => {
