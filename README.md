@@ -168,10 +168,10 @@ Response:
   
 + TEST mochai, chai framework
 Description: Tests the individual units of the node server.
-Authorization: Requires mocha and chai to be installed on your
-               machine using either npm yarn and the package.json
-               file updated to contain the key-value pair
-               "test": "mocha"
+Authorization: Requires mocha,chai, assert, supertest and express
+			   to be installed on your machine using either npm yarn
+			   and the package.json file updated to contain the
+			   key-value pair "test": "mocha"
 Usage: Execute the following command on your trminal:
        npm run test
 

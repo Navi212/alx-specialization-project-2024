@@ -1,6 +1,10 @@
-import { expect } from 'chai'
-import connectDB from './server/config/db'
-import { isActiveRoute } from './server/helpers/routerHelpers'
+const chai = require("chai");
+const expect = chai.expect;
+const request = require('supertest');
+const express = require('express');
+const app = express();
+const connectDB = require('./server/config/db');
+const { isActiveRoute } = ('./server/helpers/routerHelpers');
 
 /*
 test('Connection to database', () => {
