@@ -4,6 +4,8 @@ const request = require('supertest');
 const express = require('express');
 const app = express();
 const connectDB = require('./server/config/db');
+
+//Module to be tested is being imported here
 const { isActiveRoute } = ('./server/helpers/routerHelpers');
 
 /*
