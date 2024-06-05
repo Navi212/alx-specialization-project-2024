@@ -21,5 +21,6 @@ describe('TESTING isActiveRoute FUNCTION...', () => {
 	it('should return false if the current route does not match the provided route', () => {
 		const route = '/home';
 		const currentRoute = '/about';
+		const result = isActiveRoute(route, currentRoute);
 	});
 });
