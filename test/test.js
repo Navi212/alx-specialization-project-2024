@@ -29,4 +29,8 @@ describe('TESTING isActiveRoute FUNCTION...', () => {
 
 
 //Integration test for express app
-//
+describe('EXPRESS APP', () =>{
+	it('Should start the server without any errors', () => {
+		request(app);
+	});	
+});
