@@ -4,6 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
+	"build": "webpack"
+	"predploy": "npm run build"
     "start": "app.js",
     "dev": "nodemon app.js"
   },
