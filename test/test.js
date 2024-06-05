@@ -14,9 +14,11 @@ describe('TESTING isActiveRoute FUNCTION...', () => {
 		const currentRoute = '/home';
 		const providedRoute = '/home';
 		const result = isActiveRoute(currentRoute, providedRoute);
-	})
+
+		assert.strictEqual(result,true);
+	});
 
 	it('Checking whether the route is active', () => {
 		expect(isActiveRoute()).to.be("active" || "");
-	})
+	});
 });
