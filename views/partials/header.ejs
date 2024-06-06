@@ -5,23 +5,26 @@
     <nav class="header_nav">
         <ul>
             <li>
-                <a href="/" class="<%= isActiveRoute("/", currentRoute) %>">Home</a>
+                <a href="/">Home</a>
             </li>
             <li>
-                <a href="/about" class="<%= isActiveRoute("/about", currentRoute) %>">About</a>
+                <a href="/about">About</a>
             </li>
             <li>
-                <a href="/contact" class="<%= isActiveRoute("/contact", currentRoute) %>">Contact</a>
+                <a href="/contact">Contact</a>
             </li>
         </ul>
     </nav>
+
     <!--Navigation bar stop-->
 
     <div class="header_button">
-        <!--<button class="searchBtn" aria-expanded="false">
-            Login/Register
-        </button>-->
-        <a href="/search" class="<%= isActiveRoute("/search", currentRoute) %>">Login/</a>
-        <a href="/register" class="<%= isActiveRoute("/register", currentRoute) %>">Register</a>
+        <% if (isAuthenticated) { %>
+            <a href="/logout">Logout</a>
+        <% } else { %>
+            <a href="/login">Login /</a>
+        <% } %>
+            <a href="/register">Register</a>
+
     </div>
 </header>

@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
             data,
             current: page,
             nextPage: hasNextPage ? nextPage : null,
-            currentRoute: "/"
+            currentRoute: "/",
         });
     } catch (error) {
         console.log(error);
@@ -33,6 +33,20 @@ router.get("/", async (req, res) => {
 });
 
 
+/*
+GET login page for User/Admin options
+*/
+router.get("/login", (req, res) => {
+   res.render("partials/login-options"); 
+});
+
+/*
+GET register page for User/Admin options
+*/
+router.get("/register", (req, res) => {
+    res.render("partials/register-options"); 
+ });
+ 
 /*
 GET post by id
 */
@@ -45,7 +59,11 @@ router.get("/post/:id", async (req, res) => {
             description: "Simple blog post with NodeJs, Express & MongoDB",
         }
         // res.render("post", { locals, data } );
-        res.render("post", { locals, data, currentRoute: `/post/${postId}`} );
+        res.render("post", {
+            locals,
+            data,
+            currentRoute: `/post/${postId}`,
+        } );
         } catch (error) {
             console.log(error);
     }
@@ -57,7 +75,7 @@ GET about page
 */
 router.get("/about", (req, res) => {
     res.render("about", {
-        currentRoute: "/about"
+        currentRoute: "/about",
     });
     // res.render("/about")
 });
@@ -68,9 +86,17 @@ GET contact page
 */
 router.get("/contact", (req, res) => {
     res.render("contact", {
-        currentRoute: "/contact"
+        currentRoute: "/contact",
     });
     // res.render("/contact");
+});
+
+/*
+GET logout page
+*/
+router.get("/logout", async(req, res) => {
+    res.clearCookie("token");
+    res.redirect("/");
 });
 
 module.exports = router;

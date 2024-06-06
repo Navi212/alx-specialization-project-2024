@@ -1,12 +1,12 @@
-//Users Schema
+//ADMIN SCHMEMA
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const UserSchema = new Schema({
+const AdminSchema = new Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     password: {
         type: String,
@@ -15,4 +15,4 @@ const UserSchema = new Schema({
 
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Admin", AdminSchema);

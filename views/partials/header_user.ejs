@@ -1,5 +1,5 @@
 <header class="header">
-    <a href="/admin/login" class="header_logo">Admin Panel</a>
+    <a href="/user/login" class="header_logo">User Panel</a>
 
     <!--Navigation bar starts-->
     <nav class="header_nav">
@@ -18,7 +18,10 @@
     <!--Navigation bar stop-->
 
     <div class="header_button">
-       <a href="/admin/login">Login</a>
-        <!-- <a href="/admin/logout">Logout</a> -->
+        <% if (isAuthenticated) { %>
+            <a href="/user/logout">Logout</a>
+        <% } else { %>
+            <a href="/user/login">Login</a>
+        <% } %>
     </div>
 </header>

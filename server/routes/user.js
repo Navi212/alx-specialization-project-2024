@@ -2,50 +2,39 @@ const express = require("express");
 const mongoose = require('mongoose');
 const router = express.Router();
 const Post = require("../models/Post");
-const Admin = require("../models/Admin");
-const adminLayout = "../views/layouts/admin";
+const User = require("../models/User");
+const userLayout = "../views/layouts/user";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
 
-/*
-Auth middleware that verifies a valid user with
-access token
-*/
-const auth = (req, res, next) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return res.status(401).json({ message: "Unauthorized" });
-    }
-    try {
-        const decodedToken = jwt.verify(token, jwtSecret);
-        req.userId = decodedToken.userId;
-        next();
-    } catch (error) {
-        return res.status(401).json({ message: "Unauthorized" });
-    }
-}
+const {auth} = require("../../middlewares/auth");
+
+
+//Sets a local isAuthenticated variable to set login/logout link
+module.exports = (req, res, next) => {
+    res.locals.isAuthenticated = !!req.userId;
+    next();
+};
+
+
 /*
 GET for admin route
 */
-// router.get("/admin/login", async(req, res) => {
-//     res.redirect("admin");
+// router.get("/user/login", async(req, res) => {
+//     res.redirect("user");
 // });
 
 /*
 GET for admin route
 */
-router.get("/admin/login", async(req, res) => {
+router.get("/user/login", async(req, res) => {
     try {
         const locals = {
-            title: "Admin",
+            title: "User",
             description: "A Blog Post with Nodejs, Express and Mongodb"
         }
-        res.render("admin/admin-login", {
-            locals,
-            layout: adminLayout,
-            isAuthenticated: !!req.user
-        });
+        res.render("user/login", { locals, layout: userLayout });
         
     } catch (error) {
         console.log(error);
@@ -57,10 +46,10 @@ POST for admin route
 */
 
 
-router.post("/admin/login", async(req, res) => {
+router.post("/user/login", async(req, res) => {
     try {
         const { username, password } = req.body;
-        const user = await Admin.findOne({ username });
+        const user = await User.findOne({ username });
         if (!user) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
@@ -71,7 +60,7 @@ router.post("/admin/login", async(req, res) => {
         const token = jwt.sign({ userId: user._id }, jwtSecret);
         res.cookie("token", token, { httpOnly: true });
         res.cookie("uId", user._id, { httpOnly: true });
-        res.redirect("/admin/dashboard");
+        res.redirect("/user/dashboard");
     } catch (error) {
         console.log(error);
     }
@@ -80,19 +69,19 @@ router.post("/admin/login", async(req, res) => {
 /*
 GET dashboard route
 */
-router.get("/admin/dashboard", auth, async(req, res) => {
+router.get("/user/dashboard", auth, async(req, res) => {
+    const userId = new mongoose.Types.ObjectId(req.cookies.uId);
     try {
         const locals = {
             title: "Dashboard",
             description: "A Blog Post created with NodeJS, Express and Mongodb"
         }
         //const data =  await Post.find();
-        const data =  await Post.find();
-        res.render("admin/dashboard", {
+        const data =  await Post.find({user: userId});
+        res.render("user/dashboard", {
             locals,
             data,
-            layout: adminLayout,
-            isAuthenticated: !!req.user
+            layout: userLayout
         });
         
     } catch (error) {
@@ -103,59 +92,57 @@ router.get("/admin/dashboard", auth, async(req, res) => {
 /*
 GET admin create new POST
 */
-// router.get("/add-post", auth, async(req, res) => {
-//     try {
-//         const locals = {
-//             title: "Add Post",
-//             description: "A Blog Post created with NodeJS, Express and Mongodb"
-//         }
-//         const data = await Post.find();
-//         res.render("admin/add-post", {
-//             locals,
-//             layout: adminLayout,
-//             isAuthenticated: !req.user
-//     });
-//     } catch(error) {
-//         console.log(error);
+router.get("/user/add-post", auth, async(req, res) => {
+    try {
+        const locals = {
+            title: "Add Post",
+            description: "A Blog Post created with NodeJS, Express and Mongodb"
+        }
+        const data = await Post.find();
+        res.render("user/add-post", {
+            locals,
+            layout: userLayout
+    });
+    } catch(error) {
+        console.log(error);
         
-//     }
-// });
+    }
+});
 
 
 /*
 POST admin create new POST
 */
-// router.post("/add-post", auth, async(req, res) => {
-//     const user = req.cookies.uId;
-//     try {
-//         const newPost = new Post({
-//             title: req.body.title,
-//             body: req.body.body,
-//             user: user,
-//         });
-//         await Post.create(newPost);
-//         res.redirect("/dashboard");
-//     } catch(error) {
-//         console.log(error);
-//     }
-// });
+router.post("/user/add-post", auth, async(req, res) => {
+    const user = req.cookies.uId;
+    try {
+        const newPost = new Post({
+            title: req.body.title,
+            body: req.body.body,
+            user: user,
+        });
+        await Post.create(newPost);
+        res.redirect("/user/dashboard");
+    } catch(error) {
+        console.log(error);
+    }
+});
 
 
 /*
 GET view POST by id
 */
-router.get("/edit-post/:id", auth, async(req, res) => {
+router.get("/user/edit-post/:id", auth, async(req, res) => {
     try {
         const locals = {
             title: "Edit Post",
             description: "A Blog Post created with NodeJS, Express and Mongodb"
         }
         const data = await Post.findOne({ _id: req.params.id });
-        res.render("admin/edit-post", {
+        res.render("user/edit-post", {
             locals,
             data,
-            layout: adminLayout,
-            isAuthenticated: !!req.user
+            layout: userLayout
         });
     } catch(error) {
         console.log(error);
@@ -166,7 +153,7 @@ router.get("/edit-post/:id", auth, async(req, res) => {
 /*
 PUT admin update new POST
 */
-router.put("/edit-post/:id", auth, async(req, res) => {
+router.put("/user/edit-post/:id", auth, async(req, res) => {
     try {
 
         await Post.findByIdAndUpdate(req.params.id, {
@@ -174,7 +161,7 @@ router.put("/edit-post/:id", auth, async(req, res) => {
             body: req.body.body,
             updatedAt: Date.now()
         });
-        res.redirect(`/edit-post/${req.params.id}`);
+        res.redirect(`/user/edit-post/${req.params.id}`);
         
     } catch(error) {
         console.log(error);
@@ -184,10 +171,9 @@ router.put("/edit-post/:id", auth, async(req, res) => {
 /*
 GET register
 */
-router.get("/admin/register", async(req, res) => {
-    res.render("admin/register", {
-        currentRoute: "/admin/register",
-        isAuthenticated: !!req.user
+router.get("/user/register", async(req, res) => {
+    res.render("user/register", {
+        currentRoute: "/user/register"
     });
 });
 
@@ -195,10 +181,10 @@ router.get("/admin/register", async(req, res) => {
 /*
 DELETE POST
 */
-router.delete("/delete-post/:id", auth, async(req, res) => {
+router.delete("/user/delete-post/:id", auth, async(req, res) => {
     try {
         await Post.deleteOne({ _id: req.params.id });
-        res.redirect("/admin/dashboard");
+        res.redirect("/user/dashboard");
     } catch(error) {
         console.log(error);
     }
@@ -209,13 +195,13 @@ router.delete("/delete-post/:id", auth, async(req, res) => {
 /*
 POST for register route
 */
-router.post("/admin/register", async(req, res) => {
+router.post("/user/register", async(req, res) => {
     try {
         const { username, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
 
         try {
-            const user = await Admin.create({ username, password: hashedPassword });
+            const user = await User.create({ username, password: hashedPassword });
             res.status(201).json({ message: "User Created", user });
 
         } catch(error) {
@@ -233,7 +219,7 @@ router.post("/admin/register", async(req, res) => {
 /*
 GET Admin logout
 */
-router.get("/admin/logout", async(req, res) => {
+router.get("/user/logout", async(req, res) => {
     res.clearCookie("token");
     res.redirect("/");
 });
