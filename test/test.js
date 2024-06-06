@@ -9,6 +9,7 @@ const connectDB = require('./server/config/db');
 const { isActiveRoute } = ('./server/helpers/routerHelpers');
 
 
+
 describe('TESTING isActiveRoute FUNCTION...', () => {
 	it('Should return true if the current route matches the provided route', () => {
 		const route = '/home';
@@ -44,5 +45,9 @@ describe('EXPRESS APP', () =>{
 		request(app)
 		.get('/pseudo-route')
 		.expect(404)
+		.end((err) => {
+			if (err) return done(err);
+			done();
+		});
 	});
 });
