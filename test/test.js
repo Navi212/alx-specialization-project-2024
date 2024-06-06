@@ -40,7 +40,7 @@ describe('EXPRESS APP', () =>{
 		});
 	});
 
-	it('', (done) => {
+	it('Should return 404 for undefined routes', (done) => {
 		r()
 	});
 });
