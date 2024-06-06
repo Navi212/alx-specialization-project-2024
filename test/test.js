@@ -33,5 +33,6 @@ describe('EXPRESS APP', () =>{
 	it('Should start the server without any errors', () => {
 		request(app)
 		.get('pseudo-route')
+		.expect(404)
 	});	
 });
