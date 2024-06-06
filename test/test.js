@@ -32,7 +32,15 @@ describe('TESTING isActiveRoute FUNCTION...', () => {
 describe('EXPRESS APP', () =>{
 	it('Should start the server without any errors', () => {
 		request(app)
-		.get('pseudo-route')
-		.expect(404)
-	});	
+		.get('/')
+		.expect(200)
+		.end((err) => {
+			if (err) return done(err);
+			done();
+		});
+	});
+
+	it('', (done) => {
+		r()
+	});
 });
