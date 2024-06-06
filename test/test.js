@@ -43,5 +43,6 @@ describe('EXPRESS APP', () =>{
 	it('Should return 404 for undefined routes', (done) => {
 		request(app)
 		.get('/pseudo-route')
+		.expect(404)
 	});
 });
